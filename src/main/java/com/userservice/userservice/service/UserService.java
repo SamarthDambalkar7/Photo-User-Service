@@ -8,6 +8,8 @@ public interface UserService {
 
     ResponseEntity<?> createNewUser(User user);
 
+    ResponseEntity<?> loginUser(User user);
+
     UserDTO getUserByUserId(String userId);
 
 }
