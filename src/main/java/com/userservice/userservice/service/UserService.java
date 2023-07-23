@@ -12,4 +12,7 @@ public interface UserService {
 
     UserDTO getUserByUserId(String userId);
 
+    ResponseEntity<?> incrementPhotoCounter(String userId);
+
+
 }

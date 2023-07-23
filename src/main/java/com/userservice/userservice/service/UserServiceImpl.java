@@ -7,6 +7,7 @@ import com.userservice.userservice.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public ResponseEntity<?> createNewUser(User user) {
 
@@ -27,7 +31,12 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByUserName(user.getUserName().toLowerCase())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("userName already exists");
         }
-        User savedUser = userRepository.save(user);
+        User savedUser = new User();
+        savedUser.setUserName(user.getUserName());
+        savedUser.setUserId(user.getUserId());
+        savedUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        savedUser.setPhotosCount(0);
+        userRepository.save(savedUser);
         return ResponseEntity.status(HttpStatus.OK).body(savedUser);
 
 
@@ -35,10 +44,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<?> loginUser(User user) {
+        String encodedUserPassword = user.getPassword();
+
         if (!userRepository.existsById(user.getUserId())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        if (!userRepository.findByUserId(user.getUserId()).getPassword().equals(user.getPassword())) {
+        if (!userRepository.findByUserId(user.getUserId()).getPassword().equals(bCryptPasswordEncoder.encode(encodedUserPassword))) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
@@ -51,8 +62,18 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserByUserId(String userId) {
         UserDTO userDTO = new UserDTO();
         userDTO.setUserName(userRepository.findByUserId(userId).getUserName());
+        userDTO.setFollowers(userRepository.findByUserId(userId).getFollowers());
+        userDTO.setFollowing(userRepository.findByUserId(userId).getFollowing());
+        userDTO.setPhotosCount(userRepository.findByUserId(userId).getPhotosCount());
         return userDTO;
-
     }
 
+    @Override
+    public ResponseEntity<?> incrementPhotoCounter(String userId) {
+        User fetchedUser = userRepository.findByUserId(userId);
+        fetchedUser.setPhotosCount(fetchedUser.getPhotosCount() + 1);
+//        userRepository.findByUserId(userId).setPhotosCount((userRepository.findByUserId(userId).getPhotosCount()) + 1);
+        userRepository.save(fetchedUser);
+        return ResponseEntity.ok().build();
+    }
 }
