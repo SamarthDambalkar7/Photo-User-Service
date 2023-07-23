@@ -14,5 +14,7 @@ public interface UserService {
 
     ResponseEntity<?> incrementPhotoCounter(String userId);
 
+    ResponseEntity<?> addFollower(String followerId, String followingId);
+
 
 }

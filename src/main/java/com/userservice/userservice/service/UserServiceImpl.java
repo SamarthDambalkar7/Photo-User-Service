@@ -75,8 +75,24 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<?> incrementPhotoCounter(String userId) {
         User fetchedUser = userRepository.findByUserId(userId);
         fetchedUser.setPhotosCount(fetchedUser.getPhotosCount() + 1);
-//        userRepository.findByUserId(userId).setPhotosCount((userRepository.findByUserId(userId).getPhotosCount()) + 1);
         userRepository.save(fetchedUser);
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<?> addFollower(String followerId, String followingId) {
+        //fetch users from db
+
+        User follower = userRepository.findByUserId(followerId);
+        User following = userRepository.findByUserId(followingId);
+
+        // update values
+        follower.getFollowing().add(followingId);
+        following.getFollowers().add(followerId);
+
+        //store update values to database
+        userRepository.save(follower);
+        userRepository.save(following);
         return ResponseEntity.ok().build();
     }
 }

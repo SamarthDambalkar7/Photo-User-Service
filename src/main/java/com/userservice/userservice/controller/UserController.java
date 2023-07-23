@@ -27,23 +27,11 @@ public class UserController {
         return userServiceImpl.createNewUser(user);
     }
 
-    @PostMapping("/test")
-    public String getTest(@RequestBody User user) {
-
-        return jwtUtil.generateToken(user);
-    }
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody User user) {
 
-
         return userServiceImpl.loginUser(user);
-    }
-
-    @GetMapping("/gettest")
-    public String testGateway(@RequestParam String msg) {
-
-        return "hello gateway" + msg;
     }
 
 
@@ -53,10 +41,16 @@ public class UserController {
         return userServiceImpl.getUserByUserId(userId);
     }
 
+    //photo property logic
     @PutMapping("/incrementphotocount")
     public ResponseEntity<?> incrementPhotocount(@RequestParam String userId) {
         return userServiceImpl.incrementPhotoCounter(userId);
     }
 
+    //followers / following users logic
+    @PutMapping("/follower")
+    public ResponseEntity<?> addFollower(@RequestParam String followerId, @RequestParam String followingId) {
+        return userServiceImpl.addFollower(followerId, followingId);
+    }
 
 }
