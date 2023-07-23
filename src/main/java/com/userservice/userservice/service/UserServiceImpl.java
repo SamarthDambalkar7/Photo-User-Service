@@ -49,8 +49,11 @@ public class UserServiceImpl implements UserService {
         if (!userRepository.existsById(user.getUserId())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        if (!userRepository.findByUserId(user.getUserId()).getPassword().equals(bCryptPasswordEncoder.encode(encodedUserPassword))) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//        if (!userRepository.findByUserId(user.getUserId()).getPassword().equals(bCryptPasswordEncoder.encode(encodedUserPassword))) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//        }
+        if (!bCryptPasswordEncoder.matches(encodedUserPassword, userRepository.findByUserId(user.getUserId()).getPassword())) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         String jwtToken = jwtUtil.generateToken(user);
