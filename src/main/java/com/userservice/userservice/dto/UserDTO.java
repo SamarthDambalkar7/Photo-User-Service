@@ -4,19 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class UserDTO {
 
+    private String userId;
+
     private String userName;
 
-    private List<String> followers = new ArrayList<>();
+    private Set<String> followers = new HashSet<>();
 
-    private List<String> following = new ArrayList<>();
+    private Set<String> following = new HashSet<>();
+
+    private Set<String> savedPhotos = new HashSet<>();
 
     private long photosCount;
 

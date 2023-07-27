@@ -9,9 +9,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: secret
-    url: jdbc:mysql://13.41.110.229:3306/somedb
+    username: 23uxgri3u9nl7ekww20m
+    password: pscale_pw_5XnrLIZiMQfZXZnQPhRT3OJB7x7PPeGUW6BET0tHinD
+    url: jdbc:mysql://aws.connect.psdb.cloud/lenscapedb?sslMode=VERIFY_IDENTITY
   jpa:
     hibernate:
       ddl-auto: update
@@ -33,9 +33,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: secret
-    url: jdbc:mysql://13.41.110.229:3306/devdb
+    username: 23uxgri3u9nl7ekww20m
+    password: pscale_pw_5XnrLIZiMQfZXZnQPhRT3OJB7x7PPeGUW6BET0tHinD
+    url: jdbc:mysql://aws.connect.psdb.cloud/lenscapedb?sslMode=VERIFY_IDENTITY
   jpa:
     hibernate:
       ddl-auto: update

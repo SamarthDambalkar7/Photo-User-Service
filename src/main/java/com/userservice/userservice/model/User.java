@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Users")
@@ -33,12 +33,16 @@ public class User {
     @ElementCollection
     @CollectionTable(name = "user_followers", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "followers")
-    private List<String> followers = new ArrayList<>();
+    private Set<String> followers = new HashSet<>();
 
     @ElementCollection
     @CollectionTable(name = "user_following", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "following")
-    private List<String> following = new ArrayList<>();
+    private Set<String> following = new HashSet<>();
 
+    @ElementCollection
+    @CollectionTable(name = "user_saved_photos", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "saved_photos")
+    private Set<String> savedPhotos = new HashSet<>();
 
 }
