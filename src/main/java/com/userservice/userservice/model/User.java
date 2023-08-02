@@ -44,5 +44,4 @@ public class User {
     @CollectionTable(name = "user_saved_photos", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "saved_photos")
     private Set<String> savedPhotos = new HashSet<>();
-
 }
